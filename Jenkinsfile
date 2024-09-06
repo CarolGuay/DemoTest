@@ -16,7 +16,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clona el repositorio y selecciona la rama especificada
-                git branch: "${params.BRANCH_NAME}", url: 'https://github.com/CarolGuay/Analisis_vulnerabilidades.git'
+                git branch: "${params.BRANCH_NAME}", url: 'https://github.com/CarolGuay/DemoTest.git'
             }
         }
 
@@ -39,14 +39,14 @@ pipeline {
             }
         }
 
-         stage('Dependency Analysis') {
+         stage('Dependency-Track Analysis') {
             steps {
-                echo 'Running Dependency Track analysis...'
-                // Ejecutar el análisis de dependencias usando Dependency Track
-                sh '''
-                # Comando para enviar el archivo de dependencias a Dependency Track
-                dependency-track -u $DEP_TRACK_URL -a /path/to/your/analysis-file.json
-                '''
+                dependencyTrack(
+                    project: '<08404479-dca3-4314-9891-8e657a49bc3d>',
+                    application: '<DemoTest>',
+                    scanPath: '.',
+                    format: 'JSON'
+                )
             }
         }
 
