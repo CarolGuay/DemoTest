@@ -9,13 +9,12 @@ pipeline {
 
     environment {
         MY_ENV_VAR = 'value'
-        DEP_TRACK_URL = 'http://localhost:8081'
+        DEP_TRACK_URL = 'http://dependency-track:8080' // URL ajustada para la red Docker
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Clona el repositorio y selecciona la rama especificada
                 git branch: "${params.BRANCH_NAME}", url: 'https://github.com/CarolGuay/DemoTest.git'
             }
         }
@@ -48,16 +47,14 @@ pipeline {
         }
 
         stage('Locate Analysis File') {
-    steps {
-        sh 'find . -name "*.json"'
-    }
-}
-
+            steps {
+                sh 'find . -name "*.json"'
+            }
+        }
 
         stage('Archive Results') {
             steps {
                 echo 'Archiving Dependency Track results...'
-                // Actualiza la ruta para archivar el archivo de análisis generado
                 archiveArtifacts artifacts: '**/dependency-track-analysis.json', allowEmptyArchive: true
             }
         }    
