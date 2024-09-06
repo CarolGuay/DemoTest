@@ -39,7 +39,7 @@ pipeline {
         stage('Dependency-Track Analysis') {
             steps {
                 dependencyTrackPublisher(
-                    serverUrl: "${http://dependency-track:8080}",
+                    serverUrl: "${env.DEP_TRACK_URL}",
                     projectName: 'DemoTest',
                     version: '1.0',
                     scanPath: '.',
