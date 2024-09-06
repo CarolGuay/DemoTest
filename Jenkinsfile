@@ -38,8 +38,10 @@ pipeline {
 
         stage('Dependency-Track Analysis') {
             steps {
-                dependencyTrack(
-                    project: '08404479-dca3-4314-9891-8e657a49bc3d',
+                dependencyTrackPublisher(
+                    serverUrl: "${http://dependency-track:8080}",
+                    projectName: 'DemoTest',
+                    version: '1.0',
                     scanPath: '.',
                     format: 'JSON'
                 )
