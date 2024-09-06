@@ -23,7 +23,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building branch ${params.BRANCH_NAME}..."
-                // Aquí puedes agregar los comandos para construir tu aplicación
                 sh 'echo "Build step"'
             }
         }
@@ -34,34 +33,38 @@ pipeline {
             }
             steps {
                 echo 'Testing...'
-                // Aquí puedes agregar los comandos para ejecutar tus pruebas
                 sh 'echo "Test step"'
             }
         }
 
-         stage('Dependency-Track Analysis') {
+        stage('Dependency-Track Analysis') {
             steps {
                 dependencyTrack(
-                    project: '<08404479-dca3-4314-9891-8e657a49bc3d>',
-                    application: '<DemoTest>',
+                    project: '08404479-dca3-4314-9891-8e657a49bc3d',
                     scanPath: '.',
                     format: 'JSON'
                 )
             }
         }
 
+        stage('Locate Analysis File') {
+    steps {
+        sh 'find . -name "*.json"'
+    }
+}
+
+
         stage('Archive Results') {
             steps {
                 echo 'Archiving Dependency Track results...'
-                // Archivar el archivo de resultados generados
-                archiveArtifacts artifacts: '**/path/to/your/analysis-file.json', allowEmptyArchive: true
+                // Actualiza la ruta para archivar el archivo de análisis generado
+                archiveArtifacts artifacts: '**/dependency-track-analysis.json', allowEmptyArchive: true
             }
         }    
 
         stage('Deploy') {
             steps {
                 echo "Deploying to environment ${params.ENVIRONMENT}..."
-                // Aquí puedes agregar los comandos para desplegar tu aplicación
                 sh 'echo "Deploy step"'
             }
         }
@@ -70,7 +73,6 @@ pipeline {
     post {
         always {
             echo 'Cleaning up...'
-            // Aquí puedes agregar comandos que se ejecutarán siempre, como la limpieza
         }
 
         success {
